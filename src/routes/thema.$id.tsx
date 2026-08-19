@@ -5,6 +5,8 @@ import { useRecorder } from "@/hooks/useRecorder";
 import { analysiereAufnahme } from "@/lib/analyse.functions";
 import type { AnalysisResult } from "@/lib/ai.server";
 import { aktualisiereScore, speichereEintrag, zufaelligesThema } from "@/lib/progress";
+import { useAuth } from "@/hooks/useAuth";
+import { ladeAufnahmeHoch, speichereBewertung, starteUebung } from "@/lib/uebungen";
 
 const DAUER = 5 * 60;
 
@@ -40,6 +42,7 @@ function ThemaSeite() {
   const { thema } = Route.useLoaderData();
   const navigate = useNavigate();
   const rec = useRecorder();
+  const { user } = useAuth();
   const [rest, setRest] = useState(DAUER);
   const [laeuft, setLaeuft] = useState(false);
   const [vorbei, setVorbei] = useState(false);
@@ -48,6 +51,7 @@ function ThemaSeite() {
   const [ladeAnalyse, setLadeAnalyse] = useState(false);
   const [fehler, setFehler] = useState<string | null>(null);
   const eintragZeit = useRef<number | null>(null);
+  const cloudId = useRef<string | null>(null);
 
   // Reset beim Themenwechsel
   useEffect(() => {
@@ -61,6 +65,21 @@ function ThemaSeite() {
     rec.reset();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [thema.id]);
+
+  // Aufnahme des angemeldeten Nutzers sicher im Konto speichern
+  useEffect(() => {
+    if (!user || !cloudId.current || !rec.audioUrl) return;
+    const id = cloudId.current;
+    let abgebrochen = false;
+    (async () => {
+      const blob = await fetch(rec.audioUrl!).then((r) => r.blob());
+      if (!abgebrochen) await ladeAufnahmeHoch(user.id, id, blob, rec.format);
+    })();
+    return () => {
+      abgebrochen = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rec.audioUrl, user?.id]);
 
   useEffect(() => {
     if (!laeuft) return;
@@ -86,6 +105,8 @@ function ThemaSeite() {
     const zeit = Date.now();
     eintragZeit.current = zeit;
     speichereEintrag({ themaId: thema.id, titel: thema.title, datum: zeit, score: null });
+    cloudId.current = null;
+    if (user) cloudId.current = await starteUebung(user.id, { id: thema.id, title: thema.title });
     setRest(DAUER);
     setVorbei(false);
     setLaeuft(true);
@@ -112,6 +133,7 @@ function ThemaSeite() {
       });
       setAnalyse(res);
       if (eintragZeit.current) aktualisiereScore(thema.id, eintragZeit.current, res.bewertung.gesamt);
+      if (cloudId.current) await speichereBewertung(cloudId.current, res);
     } catch (e) {
       setFehler(e instanceof Error ? e.message : "Die Analyse ist fehlgeschlagen.");
     } finally {

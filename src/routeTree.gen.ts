@@ -10,8 +10,14 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AnmeldenRouteImport } from './routes/anmelden'
 import { Route as FortschrittRouteImport } from './routes/fortschritt'
+import { Route as PasswortVergessenRouteImport } from './routes/passwort-vergessen'
+import { Route as RegistrierenRouteImport } from './routes/registrieren'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ThemenRouteImport } from './routes/themen'
+import { Route as AuthenticatedKontoRouteImport } from './routes/_authenticated/konto'
 import { Route as ThemaIdRouteImport } from './routes/thema.$id'
 
 const IndexRoute = IndexRouteImport.update({
@@ -19,15 +25,44 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AnmeldenRoute = AnmeldenRouteImport.update({
+  id: '/anmelden',
+  path: '/anmelden',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FortschrittRoute = FortschrittRouteImport.update({
   id: '/fortschritt',
   path: '/fortschritt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PasswortVergessenRoute = PasswortVergessenRouteImport.update({
+  id: '/passwort-vergessen',
+  path: '/passwort-vergessen',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegistrierenRoute = RegistrierenRouteImport.update({
+  id: '/registrieren',
+  path: '/registrieren',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ThemenRoute = ThemenRouteImport.update({
   id: '/themen',
   path: '/themen',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedKontoRoute = AuthenticatedKontoRouteImport.update({
+  id: '/konto',
+  path: '/konto',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const ThemaIdRoute = ThemaIdRouteImport.update({
   id: '/thema/$id',
@@ -37,34 +72,84 @@ const ThemaIdRoute = ThemaIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/anmelden': typeof AnmeldenRoute
   '/fortschritt': typeof FortschrittRoute
+  '/passwort-vergessen': typeof PasswortVergessenRoute
+  '/registrieren': typeof RegistrierenRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/themen': typeof ThemenRoute
+  '/konto': typeof AuthenticatedKontoRoute
   '/thema/$id': typeof ThemaIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/anmelden': typeof AnmeldenRoute
   '/fortschritt': typeof FortschrittRoute
+  '/passwort-vergessen': typeof PasswortVergessenRoute
+  '/registrieren': typeof RegistrierenRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/themen': typeof ThemenRoute
+  '/konto': typeof AuthenticatedKontoRoute
   '/thema/$id': typeof ThemaIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/anmelden': typeof AnmeldenRoute
   '/fortschritt': typeof FortschrittRoute
+  '/passwort-vergessen': typeof PasswortVergessenRoute
+  '/registrieren': typeof RegistrierenRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/themen': typeof ThemenRoute
+  '/_authenticated/konto': typeof AuthenticatedKontoRoute
   '/thema/$id': typeof ThemaIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/fortschritt' | '/themen' | '/thema/$id'
+  fullPaths:
+    | '/'
+    | '/anmelden'
+    | '/fortschritt'
+    | '/passwort-vergessen'
+    | '/registrieren'
+    | '/reset-password'
+    | '/themen'
+    | '/konto'
+    | '/thema/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/fortschritt' | '/themen' | '/thema/$id'
-  id: '__root__' | '/' | '/fortschritt' | '/themen' | '/thema/$id'
+  to:
+    | '/'
+    | '/anmelden'
+    | '/fortschritt'
+    | '/passwort-vergessen'
+    | '/registrieren'
+    | '/reset-password'
+    | '/themen'
+    | '/konto'
+    | '/thema/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/anmelden'
+    | '/fortschritt'
+    | '/passwort-vergessen'
+    | '/registrieren'
+    | '/reset-password'
+    | '/themen'
+    | '/_authenticated/konto'
+    | '/thema/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AnmeldenRoute: typeof AnmeldenRoute
   FortschrittRoute: typeof FortschrittRoute
+  PasswortVergessenRoute: typeof PasswortVergessenRoute
+  RegistrierenRoute: typeof RegistrierenRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   ThemenRoute: typeof ThemenRoute
   ThemaIdRoute: typeof ThemaIdRoute
 }
@@ -78,11 +163,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/anmelden': {
+      id: '/anmelden'
+      path: '/anmelden'
+      fullPath: '/anmelden'
+      preLoaderRoute: typeof AnmeldenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/fortschritt': {
       id: '/fortschritt'
       path: '/fortschritt'
       fullPath: '/fortschritt'
       preLoaderRoute: typeof FortschrittRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/passwort-vergessen': {
+      id: '/passwort-vergessen'
+      path: '/passwort-vergessen'
+      fullPath: '/passwort-vergessen'
+      preLoaderRoute: typeof PasswortVergessenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/registrieren': {
+      id: '/registrieren'
+      path: '/registrieren'
+      fullPath: '/registrieren'
+      preLoaderRoute: typeof RegistrierenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/themen': {
@@ -91,6 +211,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/themen'
       preLoaderRoute: typeof ThemenRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/konto': {
+      id: '/_authenticated/konto'
+      path: '/konto'
+      fullPath: '/konto'
+      preLoaderRoute: typeof AuthenticatedKontoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/thema/$id': {
       id: '/thema/$id'
@@ -102,9 +229,25 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedKontoRoute: typeof AuthenticatedKontoRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedKontoRoute: AuthenticatedKontoRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AnmeldenRoute: AnmeldenRoute,
   FortschrittRoute: FortschrittRoute,
+  PasswortVergessenRoute: PasswortVergessenRoute,
+  RegistrierenRoute: RegistrierenRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   ThemenRoute: ThemenRoute,
   ThemaIdRoute: ThemaIdRoute,
 }
