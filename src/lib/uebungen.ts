@@ -39,7 +39,7 @@ export async function speichereBewertung(id: string, ergebnis: AnalysisResult) {
     .from("uebungen")
     .update({
       score: ergebnis.bewertung.gesamt,
-      bewertung: ergebnis as unknown as Record<string, unknown>,
+      bewertung: JSON.parse(JSON.stringify(ergebnis)),
     })
     .eq("id", id);
 }
