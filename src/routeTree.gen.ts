@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as FortschrittRouteImport } from './routes/fortschritt'
 import { Route as ThemenRouteImport } from './routes/themen'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FortschrittRoute = FortschrittRouteImport.update({
+  id: '/fortschritt',
+  path: '/fortschritt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ThemenRoute = ThemenRouteImport.update({
@@ -25,27 +31,31 @@ const ThemenRoute = ThemenRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/fortschritt': typeof FortschrittRoute
   '/themen': typeof ThemenRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/fortschritt': typeof FortschrittRoute
   '/themen': typeof ThemenRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/fortschritt': typeof FortschrittRoute
   '/themen': typeof ThemenRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/themen'
+  fullPaths: '/' | '/fortschritt' | '/themen'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/themen'
-  id: '__root__' | '/' | '/themen'
+  to: '/' | '/fortschritt' | '/themen'
+  id: '__root__' | '/' | '/fortschritt' | '/themen'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  FortschrittRoute: typeof FortschrittRoute
   ThemenRoute: typeof ThemenRoute
 }
 
@@ -56,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fortschritt': {
+      id: '/fortschritt'
+      path: '/fortschritt'
+      fullPath: '/fortschritt'
+      preLoaderRoute: typeof FortschrittRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/themen': {
@@ -70,6 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  FortschrittRoute: FortschrittRoute,
   ThemenRoute: ThemenRoute,
 }
 export const routeTree = rootRouteImport
