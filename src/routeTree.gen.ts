@@ -10,7 +10,11 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AnmeldenRouteImport } from './routes/anmelden'
 import { Route as FortschrittRouteImport } from './routes/fortschritt'
+import { Route as PasswortVergessenRouteImport } from './routes/passwort-vergessen'
+import { Route as RegistrierenRouteImport } from './routes/registrieren'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ThemenRouteImport } from './routes/themen'
 import { Route as ThemaIdRouteImport } from './routes/thema.$id'
 
@@ -19,9 +23,29 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AnmeldenRoute = AnmeldenRouteImport.update({
+  id: '/anmelden',
+  path: '/anmelden',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FortschrittRoute = FortschrittRouteImport.update({
   id: '/fortschritt',
   path: '/fortschritt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PasswortVergessenRoute = PasswortVergessenRouteImport.update({
+  id: '/passwort-vergessen',
+  path: '/passwort-vergessen',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegistrierenRoute = RegistrierenRouteImport.update({
+  id: '/registrieren',
+  path: '/registrieren',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ThemenRoute = ThemenRouteImport.update({
@@ -37,34 +61,75 @@ const ThemaIdRoute = ThemaIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/anmelden': typeof AnmeldenRoute
   '/fortschritt': typeof FortschrittRoute
+  '/passwort-vergessen': typeof PasswortVergessenRoute
+  '/registrieren': typeof RegistrierenRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/themen': typeof ThemenRoute
   '/thema/$id': typeof ThemaIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/anmelden': typeof AnmeldenRoute
   '/fortschritt': typeof FortschrittRoute
+  '/passwort-vergessen': typeof PasswortVergessenRoute
+  '/registrieren': typeof RegistrierenRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/themen': typeof ThemenRoute
   '/thema/$id': typeof ThemaIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/anmelden': typeof AnmeldenRoute
   '/fortschritt': typeof FortschrittRoute
+  '/passwort-vergessen': typeof PasswortVergessenRoute
+  '/registrieren': typeof RegistrierenRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/themen': typeof ThemenRoute
   '/thema/$id': typeof ThemaIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/fortschritt' | '/themen' | '/thema/$id'
+  fullPaths:
+    | '/'
+    | '/anmelden'
+    | '/fortschritt'
+    | '/passwort-vergessen'
+    | '/registrieren'
+    | '/reset-password'
+    | '/themen'
+    | '/thema/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/fortschritt' | '/themen' | '/thema/$id'
-  id: '__root__' | '/' | '/fortschritt' | '/themen' | '/thema/$id'
+  to:
+    | '/'
+    | '/anmelden'
+    | '/fortschritt'
+    | '/passwort-vergessen'
+    | '/registrieren'
+    | '/reset-password'
+    | '/themen'
+    | '/thema/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/anmelden'
+    | '/fortschritt'
+    | '/passwort-vergessen'
+    | '/registrieren'
+    | '/reset-password'
+    | '/themen'
+    | '/thema/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AnmeldenRoute: typeof AnmeldenRoute
   FortschrittRoute: typeof FortschrittRoute
+  PasswortVergessenRoute: typeof PasswortVergessenRoute
+  RegistrierenRoute: typeof RegistrierenRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   ThemenRoute: typeof ThemenRoute
   ThemaIdRoute: typeof ThemaIdRoute
 }
@@ -78,11 +143,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/anmelden': {
+      id: '/anmelden'
+      path: '/anmelden'
+      fullPath: '/anmelden'
+      preLoaderRoute: typeof AnmeldenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/fortschritt': {
       id: '/fortschritt'
       path: '/fortschritt'
       fullPath: '/fortschritt'
       preLoaderRoute: typeof FortschrittRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/passwort-vergessen': {
+      id: '/passwort-vergessen'
+      path: '/passwort-vergessen'
+      fullPath: '/passwort-vergessen'
+      preLoaderRoute: typeof PasswortVergessenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/registrieren': {
+      id: '/registrieren'
+      path: '/registrieren'
+      fullPath: '/registrieren'
+      preLoaderRoute: typeof RegistrierenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/themen': {
@@ -104,7 +197,11 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AnmeldenRoute: AnmeldenRoute,
   FortschrittRoute: FortschrittRoute,
+  PasswortVergessenRoute: PasswortVergessenRoute,
+  RegistrierenRoute: RegistrierenRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   ThemenRoute: ThemenRoute,
   ThemaIdRoute: ThemaIdRoute,
 }

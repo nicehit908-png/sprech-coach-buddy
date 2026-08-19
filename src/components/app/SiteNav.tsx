@@ -1,4 +1,6 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 
 const links = [
   { to: "/", label: "🏠 Start" },
@@ -7,6 +9,14 @@ const links = [
 ] as const;
 
 export function SiteNav() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  async function abmelden() {
+    await supabase.auth.signOut();
+    navigate({ to: "/", replace: true });
+  }
+
   return (
     <header className="sticky top-0 z-20 border-b border-border bg-card/90 backdrop-blur">
       <nav className="mx-auto flex max-w-3xl items-center gap-1 overflow-x-auto px-3 py-2">
@@ -24,6 +34,39 @@ export function SiteNav() {
             {l.label}
           </Link>
         ))}
+        {user ? (
+          <>
+            <Link
+              to="/konto"
+              className="shrink-0 rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary"
+              activeProps={{ className: "bg-secondary text-secondary-foreground" }}
+            >
+              👤 Mein Konto
+            </Link>
+            <button
+              onClick={abmelden}
+              className="shrink-0 rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary"
+            >
+              🚪 Abmelden
+            </button>
+          </>
+        ) : (
+          <>
+            <Link
+              to="/anmelden"
+              className="shrink-0 rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary"
+              activeProps={{ className: "bg-secondary text-secondary-foreground" }}
+            >
+              🔐 Anmelden
+            </Link>
+            <Link
+              to="/registrieren"
+              className="shrink-0 rounded-full bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground"
+            >
+              👤 Registrieren
+            </Link>
+          </>
+        )}
       </nav>
     </header>
   );
