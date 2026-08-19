@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { themen } from "@/data/themen";
 import { zufaelligesThema, statistik } from "@/lib/progress";
 import { useEffect, useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -24,6 +25,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [stats, setStats] = useState<ReturnType<typeof statistik> | null>(null);
   useEffect(() => setStats(statistik()), []);
 
@@ -51,6 +53,29 @@ function Index() {
           📚 Alle Themen ({themen.length})
         </Link>
       </section>
+
+      {!user && (
+        <section className="mt-6 rounded-2xl border border-border bg-card p-5">
+          <p className="font-semibold">
+            Erstelle ein kostenloses Konto, um deinen Fortschritt zu speichern.
+          </p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Ohne Konto kannst du alles ausprobieren – gespeichert werden deine Übungen, Bewertungen
+            und Aufnahmen nur mit Konto.
+          </p>
+          <div className="mt-4 flex flex-wrap gap-3">
+            <Link
+              to="/registrieren"
+              className="rounded-2xl bg-primary px-5 py-3 font-bold text-primary-foreground"
+            >
+              👤 Registrieren
+            </Link>
+            <Link to="/anmelden" className="rounded-2xl border border-border px-5 py-3 font-semibold">
+              🔐 Anmelden
+            </Link>
+          </div>
+        </section>
+      )}
 
       <section className="mt-8 grid gap-3 sm:grid-cols-3">
         {[

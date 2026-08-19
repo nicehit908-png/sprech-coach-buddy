@@ -10,17 +10,23 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AnmeldenRouteImport } from './routes/anmelden'
 import { Route as FortschrittRouteImport } from './routes/fortschritt'
 import { Route as PasswortVergessenRouteImport } from './routes/passwort-vergessen'
 import { Route as RegistrierenRouteImport } from './routes/registrieren'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ThemenRouteImport } from './routes/themen'
+import { Route as AuthenticatedKontoRouteImport } from './routes/_authenticated/konto'
 import { Route as ThemaIdRouteImport } from './routes/thema.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AnmeldenRoute = AnmeldenRouteImport.update({
@@ -53,6 +59,11 @@ const ThemenRoute = ThemenRouteImport.update({
   path: '/themen',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedKontoRoute = AuthenticatedKontoRouteImport.update({
+  id: '/konto',
+  path: '/konto',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const ThemaIdRoute = ThemaIdRouteImport.update({
   id: '/thema/$id',
   path: '/thema/$id',
@@ -67,6 +78,7 @@ export interface FileRoutesByFullPath {
   '/registrieren': typeof RegistrierenRoute
   '/reset-password': typeof ResetPasswordRoute
   '/themen': typeof ThemenRoute
+  '/konto': typeof AuthenticatedKontoRoute
   '/thema/$id': typeof ThemaIdRoute
 }
 export interface FileRoutesByTo {
@@ -77,17 +89,20 @@ export interface FileRoutesByTo {
   '/registrieren': typeof RegistrierenRoute
   '/reset-password': typeof ResetPasswordRoute
   '/themen': typeof ThemenRoute
+  '/konto': typeof AuthenticatedKontoRoute
   '/thema/$id': typeof ThemaIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/anmelden': typeof AnmeldenRoute
   '/fortschritt': typeof FortschrittRoute
   '/passwort-vergessen': typeof PasswortVergessenRoute
   '/registrieren': typeof RegistrierenRoute
   '/reset-password': typeof ResetPasswordRoute
   '/themen': typeof ThemenRoute
+  '/_authenticated/konto': typeof AuthenticatedKontoRoute
   '/thema/$id': typeof ThemaIdRoute
 }
 export interface FileRouteTypes {
@@ -100,6 +115,7 @@ export interface FileRouteTypes {
     | '/registrieren'
     | '/reset-password'
     | '/themen'
+    | '/konto'
     | '/thema/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -110,21 +126,25 @@ export interface FileRouteTypes {
     | '/registrieren'
     | '/reset-password'
     | '/themen'
+    | '/konto'
     | '/thema/$id'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/anmelden'
     | '/fortschritt'
     | '/passwort-vergessen'
     | '/registrieren'
     | '/reset-password'
     | '/themen'
+    | '/_authenticated/konto'
     | '/thema/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AnmeldenRoute: typeof AnmeldenRoute
   FortschrittRoute: typeof FortschrittRoute
   PasswortVergessenRoute: typeof PasswortVergessenRoute
@@ -141,6 +161,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/anmelden': {
@@ -185,6 +212,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ThemenRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/konto': {
+      id: '/_authenticated/konto'
+      path: '/konto'
+      fullPath: '/konto'
+      preLoaderRoute: typeof AuthenticatedKontoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/thema/$id': {
       id: '/thema/$id'
       path: '/thema/$id'
@@ -195,8 +229,20 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedKontoRoute: typeof AuthenticatedKontoRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedKontoRoute: AuthenticatedKontoRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AnmeldenRoute: AnmeldenRoute,
   FortschrittRoute: FortschrittRoute,
   PasswortVergessenRoute: PasswortVergessenRoute,
