@@ -14,7 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      uebungen: {
+        Row: {
+          audio_pfad: string | null
+          bewertung: Json | null
+          created_at: string
+          datum: string
+          id: string
+          score: number | null
+          thema_id: string
+          titel: string
+          user_id: string
+        }
+        Insert: {
+          audio_pfad?: string | null
+          bewertung?: Json | null
+          created_at?: string
+          datum?: string
+          id?: string
+          score?: number | null
+          thema_id: string
+          titel: string
+          user_id: string
+        }
+        Update: {
+          audio_pfad?: string | null
+          bewertung?: Json | null
+          created_at?: string
+          datum?: string
+          id?: string
+          score?: number | null
+          thema_id?: string
+          titel?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
