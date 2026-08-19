@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as FortschrittRouteImport } from './routes/fortschritt'
 import { Route as ThemenRouteImport } from './routes/themen'
+import { Route as ThemaIdRouteImport } from './routes/thema.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,35 +29,44 @@ const ThemenRoute = ThemenRouteImport.update({
   path: '/themen',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ThemaIdRoute = ThemaIdRouteImport.update({
+  id: '/thema/$id',
+  path: '/thema/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/fortschritt': typeof FortschrittRoute
   '/themen': typeof ThemenRoute
+  '/thema/$id': typeof ThemaIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/fortschritt': typeof FortschrittRoute
   '/themen': typeof ThemenRoute
+  '/thema/$id': typeof ThemaIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/fortschritt': typeof FortschrittRoute
   '/themen': typeof ThemenRoute
+  '/thema/$id': typeof ThemaIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/fortschritt' | '/themen'
+  fullPaths: '/' | '/fortschritt' | '/themen' | '/thema/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/fortschritt' | '/themen'
-  id: '__root__' | '/' | '/fortschritt' | '/themen'
+  to: '/' | '/fortschritt' | '/themen' | '/thema/$id'
+  id: '__root__' | '/' | '/fortschritt' | '/themen' | '/thema/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FortschrittRoute: typeof FortschrittRoute
   ThemenRoute: typeof ThemenRoute
+  ThemaIdRoute: typeof ThemaIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +92,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ThemenRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/thema/$id': {
+      id: '/thema/$id'
+      path: '/thema/$id'
+      fullPath: '/thema/$id'
+      preLoaderRoute: typeof ThemaIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FortschrittRoute: FortschrittRoute,
   ThemenRoute: ThemenRoute,
+  ThemaIdRoute: ThemaIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
