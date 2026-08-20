@@ -9,12 +9,15 @@ export type CloudUebung = {
   score: number | null;
   bewertung: AnalysisResult | null;
   audio_pfad: string | null;
+  status: string | null;
+  dauer: number | null;
+  tips: string[] | null;
 };
 
 export async function ladeUebungen(): Promise<CloudUebung[]> {
   const { data, error } = await supabase
     .from("uebungen")
-    .select("id, thema_id, titel, datum, score, bewertung, audio_pfad")
+    .select("id, thema_id, titel, datum, score, bewertung, audio_pfad, status, dauer, tips")
     .order("datum", { ascending: false })
     .limit(200);
   if (error) throw error;
@@ -40,6 +43,8 @@ export async function speichereBewertung(id: string, ergebnis: AnalysisResult) {
     .update({
       score: ergebnis.bewertung.gesamt,
       bewertung: JSON.parse(JSON.stringify(ergebnis)),
+      status: ergebnis.bewertung.gesamt >= 70 ? "bestanden" : "nochmal",
+      tips: JSON.parse(JSON.stringify(ergebnis.vergleich?.fehlendeArgumente ?? [])),
     })
     .eq("id", id);
 }
@@ -77,5 +82,7 @@ export function cloudStatistik(alle: CloudUebung[]) {
     durchschnitt: mitScore.length
       ? Math.round(mitScore.reduce((s, e) => s + e.score, 0) / mitScore.length)
       : null,
+    beste: mitScore.length ? Math.max(...mitScore.map((e) => e.score)) : null,
+    bestanden: alle.filter((e) => e.status === "bestanden").length,
   };
 }

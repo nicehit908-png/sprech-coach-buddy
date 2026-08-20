@@ -15,15 +15,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [laedt, setLaedt] = useState(true);
 
   useEffect(() => {
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, s) => {
-      setSession(s);
+    let unsubscribe: (() => void) | undefined;
+    try {
+      const { data: sub } = supabase.auth.onAuthStateChange((_event, s) => {
+        setSession(s);
+        setLaedt(false);
+      });
+      unsubscribe = () => sub.subscription.unsubscribe();
+      supabase.auth.getSession().then(({ data }) => {
+        setSession(data.session);
+        setLaedt(false);
+      });
+    } catch (e) {
+      console.error("[Auth] Verbindung nicht verfügbar", e);
+      setSession(null);
       setLaedt(false);
-    });
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
-      setLaedt(false);
-    });
-    return () => sub.subscription.unsubscribe();
+    }
+    return () => unsubscribe?.();
   }, []);
 
   return (
