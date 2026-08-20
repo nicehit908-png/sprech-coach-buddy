@@ -20,9 +20,12 @@ export type Database = {
           bewertung: Json | null
           created_at: string
           datum: string
+          dauer: number | null
           id: string
           score: number | null
+          status: string | null
           thema_id: string
+          tips: Json | null
           titel: string
           user_id: string
         }
@@ -31,9 +34,12 @@ export type Database = {
           bewertung?: Json | null
           created_at?: string
           datum?: string
+          dauer?: number | null
           id?: string
           score?: number | null
+          status?: string | null
           thema_id: string
+          tips?: Json | null
           titel: string
           user_id: string
         }
@@ -42,11 +48,80 @@ export type Database = {
           bewertung?: Json | null
           created_at?: string
           datum?: string
+          dauer?: number | null
           id?: string
           score?: number | null
+          status?: string | null
           thema_id?: string
+          tips?: Json | null
           titel?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      user_stats: {
+        Row: {
+          anzahl_bestanden: number
+          badges: Json
+          beste_bewertung: number | null
+          beste_streak: number
+          challenge_datum: string | null
+          challenge_text: string | null
+          created_at: string
+          heute_gemacht: number
+          letzter_tag: string | null
+          level: number
+          module_abgeschlossen: Json
+          schwaechen: Json | null
+          streak: number
+          taegliches_ziel: number
+          trainingsplan: Json | null
+          updated_at: string
+          user_id: string
+          xp: number
+          ziel_datum: string | null
+        }
+        Insert: {
+          anzahl_bestanden?: number
+          badges?: Json
+          beste_bewertung?: number | null
+          beste_streak?: number
+          challenge_datum?: string | null
+          challenge_text?: string | null
+          created_at?: string
+          heute_gemacht?: number
+          letzter_tag?: string | null
+          level?: number
+          module_abgeschlossen?: Json
+          schwaechen?: Json | null
+          streak?: number
+          taegliches_ziel?: number
+          trainingsplan?: Json | null
+          updated_at?: string
+          user_id: string
+          xp?: number
+          ziel_datum?: string | null
+        }
+        Update: {
+          anzahl_bestanden?: number
+          badges?: Json
+          beste_bewertung?: number | null
+          beste_streak?: number
+          challenge_datum?: string | null
+          challenge_text?: string | null
+          created_at?: string
+          heute_gemacht?: number
+          letzter_tag?: string | null
+          level?: number
+          module_abgeschlossen?: Json
+          schwaechen?: Json | null
+          streak?: number
+          taegliches_ziel?: number
+          trainingsplan?: Json | null
+          updated_at?: string
+          user_id?: string
+          xp?: number
+          ziel_datum?: string | null
         }
         Relationships: []
       }
