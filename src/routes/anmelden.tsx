@@ -4,6 +4,7 @@ import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { AuthCard, Meldung, buttonClass, feldClass } from "@/components/app/AuthCard";
+import { PasswordInput } from "@/components/app/PasswordInput";
 
 export const Route = createFileRoute("/anmelden")({
   head: () => ({
@@ -67,7 +68,7 @@ function Anmelden() {
         <label className="text-sm font-semibold" htmlFor="email">E-Mail</label>
         <input id="email" type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} className={feldClass} placeholder="name@beispiel.de" />
         <label className="text-sm font-semibold" htmlFor="pw">Passwort</label>
-        <input id="pw" type="password" autoComplete="current-password" value={passwort} onChange={(e) => setPasswort(e.target.value)} className={feldClass} />
+        <PasswordInput id="pw" autoComplete="current-password" value={passwort} onChange={(e) => setPasswort(e.target.value)} feldClass={feldClass} />
         <button type="submit" disabled={laedt} className={`${buttonClass} mt-2`}>
           {laedt ? "Wird geprüft..." : "Anmelden"}
         </button>

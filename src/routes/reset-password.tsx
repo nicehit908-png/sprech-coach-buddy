@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { AuthCard, Meldung, buttonClass, feldClass } from "@/components/app/AuthCard";
+import { PasswordInput } from "@/components/app/PasswordInput";
 
 export const Route = createFileRoute("/reset-password")({
   head: () => ({
@@ -55,9 +56,9 @@ function ResetPassword() {
     <AuthCard titel="🔑 Neues Passwort" untertitel="Lege jetzt dein neues Passwort fest.">
       <form onSubmit={absenden} className="grid gap-3">
         <label className="text-sm font-semibold" htmlFor="pw">Neues Passwort</label>
-        <input id="pw" type="password" autoComplete="new-password" value={passwort} onChange={(e) => setPasswort(e.target.value)} className={feldClass} />
+        <PasswordInput id="pw" autoComplete="new-password" value={passwort} onChange={(e) => setPasswort(e.target.value)} feldClass={feldClass} />
         <label className="text-sm font-semibold" htmlFor="pw2">Passwort bestätigen</label>
-        <input id="pw2" type="password" autoComplete="new-password" value={bestaetigung} onChange={(e) => setBestaetigung(e.target.value)} className={feldClass} />
+        <PasswordInput id="pw2" autoComplete="new-password" value={bestaetigung} onChange={(e) => setBestaetigung(e.target.value)} feldClass={feldClass} />
         <button type="submit" disabled={laedt} className={`${buttonClass} mt-2`}>
           {laedt ? "Wird gespeichert..." : "Passwort speichern"}
         </button>
