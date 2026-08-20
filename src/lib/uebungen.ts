@@ -44,7 +44,7 @@ export async function speichereBewertung(id: string, ergebnis: AnalysisResult) {
       score: ergebnis.bewertung.gesamt,
       bewertung: JSON.parse(JSON.stringify(ergebnis)),
       status: ergebnis.bewertung.gesamt >= 70 ? "bestanden" : "nochmal",
-      tips: JSON.parse(JSON.stringify(ergebnis.tipps ?? [])),
+      tips: JSON.parse(JSON.stringify(ergebnis.vergleich?.fehlendeArgumente ?? [])),
     })
     .eq("id", id);
 }
