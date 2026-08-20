@@ -4,8 +4,9 @@ import { useAuth } from "@/hooks/useAuth";
 
 const links = [
   { to: "/", label: "🏠 Start" },
-  { to: "/themen", label: "📚 Alle Themen" },
+  { to: "/themen", label: "📚 Themen" },
   { to: "/fortschritt", label: "📈 Fortschritt" },
+  { to: "/historie", label: "📜 Historie" },
 ] as const;
 
 export function SiteNav() {
@@ -21,7 +22,7 @@ export function SiteNav() {
     <header className="sticky top-0 z-20 border-b border-border bg-card/90 backdrop-blur">
       <nav className="mx-auto flex max-w-3xl items-center gap-1 overflow-x-auto px-3 py-2">
         <Link to="/" className="mr-auto shrink-0 text-base font-bold tracking-tight text-primary">
-          Sprechen&nbsp;B1
+          Sprechen&nbsp;B1&nbsp;Coach
         </Link>
         {links.map((l) => (
           <Link
@@ -41,13 +42,13 @@ export function SiteNav() {
               className="shrink-0 rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary"
               activeProps={{ className: "bg-secondary text-secondary-foreground" }}
             >
-              👤 Mein Konto
+              👤 Konto
             </Link>
             <button
               onClick={abmelden}
               className="shrink-0 rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary"
             >
-              🚪 Abmelden
+              🚪
             </button>
           </>
         ) : (
@@ -57,13 +58,13 @@ export function SiteNav() {
               className="shrink-0 rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary"
               activeProps={{ className: "bg-secondary text-secondary-foreground" }}
             >
-              🔐 Anmelden
+              🔐
             </Link>
             <Link
               to="/registrieren"
               className="shrink-0 rounded-full bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground"
             >
-              👤 Registrieren
+              👤
             </Link>
           </>
         )}

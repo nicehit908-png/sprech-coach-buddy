@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AnmeldenRouteImport } from './routes/anmelden'
 import { Route as FortschrittRouteImport } from './routes/fortschritt'
+import { Route as HistorieRouteImport } from './routes/historie'
 import { Route as PasswortVergessenRouteImport } from './routes/passwort-vergessen'
 import { Route as RegistrierenRouteImport } from './routes/registrieren'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
@@ -37,6 +38,11 @@ const AnmeldenRoute = AnmeldenRouteImport.update({
 const FortschrittRoute = FortschrittRouteImport.update({
   id: '/fortschritt',
   path: '/fortschritt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HistorieRoute = HistorieRouteImport.update({
+  id: '/historie',
+  path: '/historie',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PasswortVergessenRoute = PasswortVergessenRouteImport.update({
@@ -74,6 +80,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/anmelden': typeof AnmeldenRoute
   '/fortschritt': typeof FortschrittRoute
+  '/historie': typeof HistorieRoute
   '/passwort-vergessen': typeof PasswortVergessenRoute
   '/registrieren': typeof RegistrierenRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -85,6 +92,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/anmelden': typeof AnmeldenRoute
   '/fortschritt': typeof FortschrittRoute
+  '/historie': typeof HistorieRoute
   '/passwort-vergessen': typeof PasswortVergessenRoute
   '/registrieren': typeof RegistrierenRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -98,6 +106,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/anmelden': typeof AnmeldenRoute
   '/fortschritt': typeof FortschrittRoute
+  '/historie': typeof HistorieRoute
   '/passwort-vergessen': typeof PasswortVergessenRoute
   '/registrieren': typeof RegistrierenRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -111,6 +120,7 @@ export interface FileRouteTypes {
     | '/'
     | '/anmelden'
     | '/fortschritt'
+    | '/historie'
     | '/passwort-vergessen'
     | '/registrieren'
     | '/reset-password'
@@ -122,6 +132,7 @@ export interface FileRouteTypes {
     | '/'
     | '/anmelden'
     | '/fortschritt'
+    | '/historie'
     | '/passwort-vergessen'
     | '/registrieren'
     | '/reset-password'
@@ -134,6 +145,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/anmelden'
     | '/fortschritt'
+    | '/historie'
     | '/passwort-vergessen'
     | '/registrieren'
     | '/reset-password'
@@ -147,6 +159,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AnmeldenRoute: typeof AnmeldenRoute
   FortschrittRoute: typeof FortschrittRoute
+  HistorieRoute: typeof HistorieRoute
   PasswortVergessenRoute: typeof PasswortVergessenRoute
   RegistrierenRoute: typeof RegistrierenRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
@@ -182,6 +195,13 @@ declare module '@tanstack/react-router' {
       path: '/fortschritt'
       fullPath: '/fortschritt'
       preLoaderRoute: typeof FortschrittRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/historie': {
+      id: '/historie'
+      path: '/historie'
+      fullPath: '/historie'
+      preLoaderRoute: typeof HistorieRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/passwort-vergessen': {
@@ -245,6 +265,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AnmeldenRoute: AnmeldenRoute,
   FortschrittRoute: FortschrittRoute,
+  HistorieRoute: HistorieRoute,
   PasswortVergessenRoute: PasswortVergessenRoute,
   RegistrierenRoute: RegistrierenRoute,
   ResetPasswordRoute: ResetPasswordRoute,
