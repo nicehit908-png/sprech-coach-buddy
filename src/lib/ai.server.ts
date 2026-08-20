@@ -1,5 +1,5 @@
 const GATEWAY = "https://ai.gateway.lovable.dev/v1/chat/completions";
-const MODEL = "google/gemini-3-flash-preview";
+const MODEL = "google/gemini-2.0-flash-preview";
 
 export type AnalysisResult = {
   transkript: string;
